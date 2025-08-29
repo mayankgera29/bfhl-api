@@ -18,10 +18,10 @@ app.use(
   })
 );
 
-// Routes
+// ✅ API Routes
 app.use("/bfhl", bfhlRoutes);
 
-// Health check
+// ✅ Health check (sirf backend test ke liye)
 app.get("/health", (req, res) => res.send("BFHL API running ✅"));
 
 // ✅ Serve frontend build
@@ -30,7 +30,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "frontend/dist", "index.html"));
 });
 
-// Error handler
+// ✅ Error handler
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
