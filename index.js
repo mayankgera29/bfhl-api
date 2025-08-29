@@ -8,25 +8,19 @@ const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 app.use(bodyParser.json());
-
-// ✅ allow all origins
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors());
 
 // ✅ API Routes
 app.use("/bfhl", bfhlRoutes);
 
-// ✅ Health check (sirf backend test ke liye)
-app.get("/health", (req, res) => res.send("BFHL API running ✅"));
+// ✅ Health check (sirf API ke liye)
+app.get("/health", (req, res) => {
+  res.send("BFHL API is running ✅");
+});
 
-// ✅ Serve frontend build
+// ✅ Serve frontend build (React app)
 app.use(express.static(path.join(__dirname, "frontend/dist")));
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.resolve(__dirname, "frontend/dist", "index.html"));
 });
 
@@ -34,4 +28,6 @@ app.get("*", (req, res) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
