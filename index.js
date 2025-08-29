@@ -18,11 +18,11 @@ app.get("/health", (req, res) => {
   res.send("BFHL API is running ✅");
 });
 
-// ✅ Serve frontend build (React app)
+// ✅ Serve React frontend build (works fine in Express v4)
 const frontendPath = path.join(__dirname, "frontend", "dist");
 app.use(express.static(frontendPath));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.sendFile(path.resolve(frontendPath, "index.html"));
 });
 
 // ✅ Error handler
@@ -30,5 +30,6 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
